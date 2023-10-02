@@ -2,9 +2,9 @@ from qiskit import QuantumCircuit, transpile, assemble, execute
 from qiskit.providers.aer import AerSimulator
 import numpy as np
 
-# Генериране на данни от тренировъчния и тестовия сет
-X_train = np.array([[0, 1], [1, 0], [0, 0], [1, 1]])  # Примерни данни за тренировка
-X_test = np.array([[0, 1], [1, 0]])  # Примерни данни за тест
+# Генериране training-test set 
+X_train = np.array([[0, 1], [1, 0], [0, 0], [1, 1]])  
+X_test = np.array([[0, 1], [1, 0]])  
 
 # Създаване на симулатор за квантово изчисление
 simulator = AerSimulator()
