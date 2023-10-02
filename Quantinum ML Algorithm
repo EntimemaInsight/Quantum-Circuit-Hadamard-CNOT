@@ -1,0 +1,20 @@
+import numpy as np
+from qiskit import QuantumCircuit, Aer, transpile, assemble, execute
+from qiskit.visualization import plot_bloch_multivector, plot_histogram
+# Създаване на квантова верига
+num_qubits = 3
+qc = QuantumCircuit(num_qubits)
+# Добавяне на квантови врати
+for qubit in range(num_qubits):
+    qc.h(qubit)  # Квантова врата на Хадамар
+qc.cx(0, 1)  # Квантова врата CNOT
+qc.cx(1, 2)  # Квантова врата CNOT
+# Изобразяване на квантовата верига
+qc.draw(output='mpl')
+# Изпълнение на квантовата верига
+simulator = Aer.get_backend('statevector_simulator')
+job = execute(qc, simulator)
+result = job.result()
+statevector = result.get_statevector()
+# Изобразяване на квантовата състояние
+plot_bloch_multivector(statevector) 
