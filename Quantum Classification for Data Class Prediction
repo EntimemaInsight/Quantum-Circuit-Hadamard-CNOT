@@ -1,0 +1,43 @@
+from qiskit import QuantumCircuit, transpile, assemble, execute
+from qiskit.providers.aer import AerSimulator
+import numpy as np
+
+# Генериране на данни от тренировъчния и тестовия сет
+X_train = np.array([[0, 1], [1, 0], [0, 0], [1, 1]])  # Примерни данни за тренировка
+X_test = np.array([[0, 1], [1, 0]])  # Примерни данни за тест
+
+# Създаване на симулатор за квантово изчисление
+simulator = AerSimulator()
+
+# Създаване на квантова схема
+qc = QuantumCircuit(2, 2)  # 2 квантови бита и 2 класически бита
+
+# Преобразуване на входните данни в квантови състояния
+for i in range(len(X_train)):
+    if X_train[i][0] == 1:
+        qc.x(0)  # Приложете X гейт, ако първият бит е 1
+    if X_train[i][1] == 1:
+        qc.x(1)  # Приложете X гейт, ако вторият бит е 1
+    qc.barrier()  # Поставете бариера, за да разделите промените на входа
+
+#останал код
+
+.............................................
+
+# Измерване на квантовите битове и запис на резултатите в класическите битове
+qc.measure([0, 1], [0, 1])
+
+# Компилиране на квантовата схема за симулация
+compiled_circuit = transpile(qc, simulator)
+job = assemble(compiled_circuit)
+
+# Изпълнение на симулацията
+result = execute(job, simulator).result()
+
+# Извеждане на резултата
+counts = result.get_counts()
+print("Резултати на симулацията:", counts)
+
+# Анализ на резултата и предсказване на класа
+predicted_class = int(max(counts, key=counts.get))
+print("Предсказан клас:", predicted_class)
